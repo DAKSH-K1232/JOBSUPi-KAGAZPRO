@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { LanguageSwitcher } from './language-switcher';
+import { UserNav } from './user-nav';
 
 export function Header() {
   return (
@@ -15,8 +16,9 @@ export function Header() {
             </span>
           </Link>
         </div>
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end items-center gap-2">
           <LanguageSwitcher />
+          <UserNav />
         </div>
       </div>
     </header>
