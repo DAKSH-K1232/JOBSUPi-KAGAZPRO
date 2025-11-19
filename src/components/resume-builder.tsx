@@ -313,9 +313,9 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
             <div className="text-sm font-medium text-destructive">{form.formState.errors.root.message}</div>
           )}
 
-          <div className="flex justify-end sticky bottom-0 py-4 bg-background/90 backdrop-blur-sm lg:hidden">
+          <div className="flex justify-end sticky bottom-0 py-4 bg-background/90 backdrop-blur-sm z-10">
             <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Generating...' : 'Preview & Share'}
+              {form.formState.isSubmitting ? 'Generating...' : 'Save & Get Shareable Link'}
               <Send className="ml-2 h-4 w-4" />
             </Button>
           </div>

@@ -108,12 +108,6 @@ export default function BuilderPage() {
           <ResumeBuilder form={form} onSubmit={onSubmit} />
         </div>
         <div className="hidden lg:block bg-muted/20 lg:overflow-y-auto p-4">
-           <div className="sticky top-0 z-10 py-4 bg-muted/20 backdrop-blur-sm flex justify-end">
-              <Button onClick={form.handleSubmit(onSubmit)} size="lg" disabled={form.formState.isSubmitting}>
-                {form.formState.isSubmitting ? 'Generating...' : 'Save & Get Shareable Link'}
-                <Send className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
           {resumeData ? (
             <div className="transform scale-[0.85] origin-top">
                 <ResumeViewer resumeData={resumeData} isPreview />
