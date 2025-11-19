@@ -26,6 +26,7 @@ const resumeSchema = z.object({
     location: z.string().min(1, 'Location is required.'),
     website: z.string().url('Invalid URL.').or(z.literal('')),
     summary: z.string().min(10, 'Summary should be at least 10 characters.'),
+    photoUrl: z.string().optional(),
   }),
   experience: z.array(z.object({
     id: z.string(),
@@ -56,7 +57,7 @@ export default function BuilderPage() {
     defaultValues: {
       profileType: 'white-collar',
       versionName: 'My First Resume',
-      personalInfo: { name: 'Your Name', email: 'your.email@example.com', phone: '9876543210', location: 'City, Country', website: '', summary: 'A brief professional summary about you.' },
+      personalInfo: { name: 'Your Name', email: 'your.email@example.com', phone: '9876543210', location: 'City, Country', website: '', summary: 'A brief professional summary about you.', photoUrl: '' },
       experience: [],
       education: [],
       skills: [],

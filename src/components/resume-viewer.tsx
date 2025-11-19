@@ -8,12 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Download, QrCode, Share2, ArrowLeft, Mail, Phone, Link as LinkIcon, MapPin, Globe } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { Badge } from './ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { useToast } from '@/hooks/use-toast';
+import { User } from 'lucide-react';
+
 
 const profileTypeLabels: Record<ProfileType, string> = {
   'white-collar': 'White Collar',
@@ -54,8 +55,7 @@ export function ResumeViewer({ resumeData, isPreview = false }: { resumeData: Re
     toast({ title: "Link Copied!", description: "The link to your resume is now on your clipboard." });
   };
 
-  const avatar = PlaceHolderImages.find(p => p.id === 'user-avatar');
-  const { name, email, phone, location, website, summary } = resumeData.personalInfo;
+  const { name, email, phone, location, website, summary, photoUrl } = resumeData.personalInfo;
   const profileTypeLabel = profileTypeLabels[resumeData.profileType];
 
   return (
@@ -104,8 +104,10 @@ export function ResumeViewer({ resumeData, isPreview = false }: { resumeData: Re
           <div ref={componentRef} className="p-6 sm:p-8 md:p-10 text-foreground bg-card font-body">
             <header className="flex flex-col sm:flex-row items-center gap-6 mb-8">
               <Avatar className="h-24 w-24 sm:h-32 sm:w-32 border-4 border-primary">
-                {avatar && <AvatarImage src={avatar.imageUrl} alt={name} data-ai-hint={avatar.imageHint} />}
-                <AvatarFallback>{name ? name.charAt(0) : 'U'}</AvatarFallback>
+                 <AvatarImage src={photoUrl || undefined} alt={name} />
+                <AvatarFallback>
+                  <User className="h-16 w-16" />
+                </AvatarFallback>
               </Avatar>
               <div className="text-center sm:text-left">
                 <h1 className="text-3xl sm:text-4xl font-bold font-headline text-primary">{name}</h1>

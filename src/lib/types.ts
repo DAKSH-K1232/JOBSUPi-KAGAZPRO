@@ -5,6 +5,7 @@ export interface PersonalInfo {
   location: string;
   website: string;
   summary: string;
+  photoUrl: string;
 }
 
 export interface WorkExperience {

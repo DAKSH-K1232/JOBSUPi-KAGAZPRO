@@ -8,12 +8,14 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase, GraduationCap, Plus, Sparkles, Trash2, User, FileText, Send, Keyboard, UserSquare } from 'lucide-react';
+import { Briefcase, GraduationCap, Plus, Sparkles, Trash2, User, FileText, Send, Keyboard, UserSquare, Upload } from 'lucide-react';
 import { VoiceSkillImporter } from './voice-skill-importer';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { useState } from 'react';
+import { useState, useRef, ChangeEvent } from 'react';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+
 
 const resumeSchema = z.object({
   profileType: z.enum(['white-collar', 'blue-collar', 'grey-collar']),
@@ -25,6 +27,7 @@ const resumeSchema = z.object({
     location: z.string(),
     website: z.string(),
     summary: z.string(),
+    photoUrl: z.string().optional(),
   }),
   experience: z.array(z.object({
     id: z.string(),
@@ -56,6 +59,7 @@ interface ResumeBuilderProps {
 
 export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
   const [skillInput, setSkillInput] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { fields: expFields, append: appendExp, remove: removeExp } = useFieldArray({ control: form.control, name: 'experience' });
   const { fields: eduFields, append: appendEdu, remove: removeEdu } = useFieldArray({ control: form.control, name: 'education' });
@@ -73,6 +77,19 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
       setSkillInput('');
     }
   };
+
+  const handlePhotoUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        form.setValue('personalInfo.photoUrl', reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const photoUrl = form.watch('personalInfo.photoUrl');
 
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
@@ -157,6 +174,34 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
               <CardDescription>Let's start with the basics.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              <FormField
+                  control={form.control}
+                  name="personalInfo.photoUrl"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center gap-4">
+                      <Avatar className="h-20 w-20">
+                        <AvatarImage src={photoUrl} />
+                        <AvatarFallback><User className="h-10 w-10" /></AvatarFallback>
+                      </Avatar>
+                      <div className="grid gap-2">
+                        <FormLabel>Profile Photo</FormLabel>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          ref={fileInputRef}
+                          onChange={handlePhotoUpload}
+                        />
+                        <Button type="button" onClick={() => fileInputRef.current?.click()}>
+                          <Upload className="mr-2 h-4 w-4" />
+                          Upload Image
+                        </Button>
+                        <FormDescription>Recommended size: 400x400px.</FormDescription>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField control={form.control} name="personalInfo.name" render={({ field }) => <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
                 <FormField control={form.control} name="personalInfo.email" render={({ field }) => <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>} />
