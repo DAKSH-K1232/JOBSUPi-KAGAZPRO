@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user account within the Kagaz Pro application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user account was created.",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating when the user account was last updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles. This path uses path-based ownership, ensuring that only the authenticated user can access their profile.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user.  It is equal to request.auth.uid."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the 'Kagaz Pro' application, focusing on user management for a resume builder. The primary collection is `users`, which stores user profiles. The structure ensures authentication independence and supports the required QAPs by storing resume data as subcollections under each user's document. This structure is highly secure and scalable and it enables simple, robust, and easily debuggable security rules. Specifically:\n\n*   **/users/{userId}**: Stores user profiles. This path uses path-based ownership, ensuring that only the authenticated user can access their profile.\n\nAuthorization Independence is achieved because the user's authentication status is readily available via `request.auth.uid`, and all data pertaining to a user is nested under their unique ID, avoiding the need for complex `get()` calls in security rules.\n\nThe design also supports the required QAPs (Rules are not Filters).  The use of path-based ownership, where user-specific data is stored under `/users/{userId}`, ensures that list operations are always scoped to a specific user. This prevents unauthorized listing of other users' data."
+  }
+}
