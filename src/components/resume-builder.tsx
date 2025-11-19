@@ -15,9 +15,9 @@ import { Separator } from './ui/separator';
 import { useState, useRef, ChangeEvent } from 'react';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { useTranslation } from '@/hooks/use-translation';
 
-
-const resumeSchema = z.object({
+const resumeSchema = (t: (key: string) => string) => z.object({
   profileType: z.enum(['white-collar', 'blue-collar', 'grey-collar']),
   versionName: z.string(),
   personalInfo: z.object({
@@ -49,7 +49,7 @@ const resumeSchema = z.object({
 });
 
 
-type ResumeFormValues = z.infer<typeof resumeSchema>;
+type ResumeFormValues = z.infer<ReturnType<typeof resumeSchema>>;
 
 interface ResumeBuilderProps {
   form: UseFormReturn<ResumeFormValues>;
@@ -58,6 +58,7 @@ interface ResumeBuilderProps {
 
 
 export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
+  const { t } = useTranslation();
   const [skillInput, setSkillInput] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -96,11 +97,11 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
   const getExperienceLabels = () => {
     switch (profileType) {
       case 'blue-collar':
-        return { title: 'Work History', description: 'List your previous jobs.', role: 'Job Title', company: 'Employer' };
+        return { title: t('builder.blueCollar.expTitle'), description: t('builder.blueCollar.expDescription'), role: t('builder.blueCollar.expRole'), company: t('builder.blueCollar.expCompany') };
       case 'grey-collar':
-        return { title: 'Work Experience', description: 'Detail your technical and professional roles.', role: 'Role / Title', company: 'Company / Client' };
+        return { title: t('builder.greyCollar.expTitle'), description: t('builder.greyCollar.expDescription'), role: t('builder.greyCollar.expRole'), company: t('builder.greyCollar.expCompany') };
       default: // white-collar
-        return { title: 'Work Experience', description: 'Detail your professional journey.', role: 'Role', company: 'Company' };
+        return { title: t('builder.whiteCollar.expTitle'), description: t('builder.whiteCollar.expDescription'), role: t('builder.whiteCollar.expRole'), company: t('builder.whiteCollar.expCompany') };
     }
   };
   const expLabels = getExperienceLabels();
@@ -108,11 +109,11 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
   const getEducationLabels = () => {
     switch (profileType) {
       case 'blue-collar':
-        return { title: 'Education & Certifications', description: 'List your training, certifications, and formal education.', institution: 'School / Provider', degree: 'Certificate / Degree' };
+        return { title: t('builder.blueCollar.eduTitle'), description: t('builder.blueCollar.eduDescription'), institution: t('builder.blueCollar.eduInstitution'), degree: t('builder.blueCollar.eduDegree') };
       case 'grey-collar':
-        return { title: 'Education & Specialized Training', description: 'Your academic and technical qualifications.', institution: 'Institution', degree: 'Degree / Certification' };
+        return { title: t('builder.greyCollar.eduTitle'), description: t('builder.greyCollar.eduDescription'), institution: t('builder.greyCollar.eduInstitution'), degree: t('builder.greyCollar.eduDegree') };
       default: // white-collar
-        return { title: 'Education', description: 'Your academic background.', institution: 'Institution', degree: 'Degree' };
+        return { title: t('builder.whiteCollar.eduTitle'), description: t('builder.whiteCollar.eduDescription'), institution: t('builder.whiteCollar.eduInstitution'), degree: t('builder.whiteCollar.eduDegree') };
     }
   };
   const eduLabels = getEducationLabels();
@@ -123,8 +124,8 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <CardHeader>
-              <CardTitle>Resume Version</CardTitle>
-              <CardDescription>Give this version of your resume a name to identify it later.</CardDescription>
+              <CardTitle>{t('builder.versionTitle')}</CardTitle>
+              <CardDescription>{t('builder.versionDescription')}</CardDescription>
             </CardHeader>
             <CardContent>
               <FormField
@@ -132,7 +133,7 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                 name="versionName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Version Name</FormLabel>
+                    <FormLabel>{t('builder.versionNameLabel')}</FormLabel>
                     <FormControl><Input {...field} /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -143,8 +144,8 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
 
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><UserSquare /> Profile Type</CardTitle>
-              <CardDescription>Select the category that best describes your line of work. This will tailor the fields for you.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><UserSquare /> {t('builder.profileTypeTitle')}</CardTitle>
+              <CardDescription>{t('builder.profileTypeDescription')}</CardDescription>
             </CardHeader>
             <CardContent>
                <FormField
@@ -163,8 +164,8 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                             <RadioGroupItem value="white-collar" />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            <span className="font-semibold block">White Collar</span>
-                            <span className="text-sm text-muted-foreground">Office, administrative, or professional jobs.</span>
+                            <span className="font-semibold block">{t('builder.whiteCollar.label')}</span>
+                            <span className="text-sm text-muted-foreground">{t('builder.whiteCollar.description')}</span>
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
@@ -172,8 +173,8 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                             <RadioGroupItem value="blue-collar" />
                           </FormControl>
                           <FormLabel className="font-normal">
-                             <span className="font-semibold block">Blue Collar</span>
-                            <span className="text-sm text-muted-foreground">Manual labor or skilled trade jobs.</span>
+                             <span className="font-semibold block">{t('builder.blueCollar.label')}</span>
+                            <span className="text-sm text-muted-foreground">{t('builder.blueCollar.description')}</span>
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
@@ -181,8 +182,8 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                             <RadioGroupItem value="grey-collar" />
                           </FormControl>
                           <FormLabel className="font-normal">
-                             <span className="font-semibold block">Grey Collar</span>
-                            <span className="text-sm text-muted-foreground">Technicians or specialized roles.</span>
+                             <span className="font-semibold block">{t('builder.greyCollar.label')}</span>
+                            <span className="text-sm text-muted-foreground">{t('builder.greyCollar.description')}</span>
                           </FormLabel>
                         </FormItem>
                       </RadioGroup>
@@ -196,8 +197,8 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
 
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><User /> Personal Information</CardTitle>
-              <CardDescription>Let's start with the basics.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><User /> {t('builder.personalInfoTitle')}</CardTitle>
+              <CardDescription>{t('builder.personalInfoDescription')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <FormField
@@ -210,7 +211,7 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                         <AvatarFallback><User className="h-10 w-10" /></AvatarFallback>
                       </Avatar>
                       <div className="grid gap-2">
-                        <FormLabel>Profile Photo</FormLabel>
+                        <FormLabel>{t('builder.photoLabel')}</FormLabel>
                         <Input
                           type="file"
                           accept="image/*"
@@ -220,24 +221,24 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                         />
                         <Button type="button" onClick={() => fileInputRef.current?.click()}>
                           <Upload className="mr-2 h-4 w-4" />
-                          Upload Image
+                          {t('builder.photoUploadButton')}
                         </Button>
-                        <FormDescription>Recommended size: 400x400px.</FormDescription>
+                        <FormDescription>{t('builder.photoDescription')}</FormDescription>
                       </div>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField control={form.control} name="personalInfo.name" render={({ field }) => <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-                <FormField control={form.control} name="personalInfo.email" render={({ field }) => <FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>} />
-                <FormField control={form.control} name="personalInfo.phone" render={({ field }) => <FormItem><FormLabel>Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-                <FormField control={form.control} name="personalInfo.location" render={({ field }) => <FormItem><FormLabel>Location</FormLabel><FormControl><Input placeholder="e.g., Mumbai, India" {...field} /></FormControl><FormMessage /></FormItem>} />
+                <FormField control={form.control} name="personalInfo.name" render={({ field }) => <FormItem><FormLabel>{t('builder.nameLabel')}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+                <FormField control={form.control} name="personalInfo.email" render={({ field }) => <FormItem><FormLabel>{t('builder.emailLabel')}</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>} />
+                <FormField control={form.control} name="personalInfo.phone" render={({ field }) => <FormItem><FormLabel>{t('builder.phoneLabel')}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+                <FormField control={form.control} name="personalInfo.location" render={({ field }) => <FormItem><FormLabel>{t('builder.locationLabel')}</FormLabel><FormControl><Input placeholder={t('builder.locationPlaceholder')} {...field} /></FormControl><FormMessage /></FormItem>} />
               </div>
               {profileType !== 'blue-collar' && (
-                <FormField control={form.control} name="personalInfo.website" render={({ field }) => <FormItem><FormLabel>Website/Portfolio (Optional)</FormLabel><FormControl><Input placeholder="https://yourportfolio.com" {...field} /></FormControl><FormMessage /></FormItem>} />
+                <FormField control={form.control} name="personalInfo.website" render={({ field }) => <FormItem><FormLabel>{t('builder.websiteLabel')}</FormLabel><FormControl><Input placeholder="https://yourportfolio.com" {...field} /></FormControl><FormMessage /></FormItem>} />
               )}
-              <FormField control={form.control} name="personalInfo.summary" render={({ field }) => <FormItem><FormLabel>Professional Summary</FormLabel><FormControl><Textarea placeholder="A brief summary of your career and goals." {...field} /></FormControl><FormMessage /></FormItem>} />
+              <FormField control={form.control} name="personalInfo.summary" render={({ field }) => <FormItem><FormLabel>{t('builder.summaryLabel')}</FormLabel><FormControl><Textarea placeholder={t('builder.summaryPlaceholder')} {...field} /></FormControl><FormMessage /></FormItem>} />
             </CardContent>
           </Card>
 
@@ -253,13 +254,13 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField control={form.control} name={`experience.${index}.role`} render={({ field }) => <FormItem><FormLabel>{expLabels.role}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
                     <FormField control={form.control} name={`experience.${index}.company`} render={({ field }) => <FormItem><FormLabel>{expLabels.company}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-                    <FormField control={form.control} name={`experience.${index}.startDate`} render={({ field }) => <FormItem><FormLabel>Start Date</FormLabel><FormControl><Input type="month" {...field} /></FormControl><FormMessage /></FormItem>} />
-                    <FormField control={form.control} name={`experience.${index}.endDate`} render={({ field }) => <FormItem><FormLabel>End Date (leave blank if current)</FormLabel><FormControl><Input type="month" {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`experience.${index}.startDate`} render={({ field }) => <FormItem><FormLabel>{t('builder.startDateLabel')}</FormLabel><FormControl><Input type="month" {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`experience.${index}.endDate`} render={({ field }) => <FormItem><FormLabel>{t('builder.endDateLabel')}</FormLabel><FormControl><Input type="month" {...field} /></FormControl><FormMessage /></FormItem>} />
                   </div>
-                  <FormField control={form.control} name={`experience.${index}.description`} render={({ field }) => <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea placeholder="Describe your responsibilities and achievements." {...field} /></FormControl><FormMessage /></FormItem>} />
+                  <FormField control={form.control} name={`experience.${index}.description`} render={({ field }) => <FormItem><FormLabel>{t('builder.descriptionLabel')}</FormLabel><FormControl><Textarea placeholder={t('builder.descriptionPlaceholder')} {...field} /></FormControl><FormMessage /></FormItem>} />
                 </div>
               ))}
-              <Button type="button" variant="outline" onClick={() => appendExp({ id: uuidv4(), company: '', role: '', startDate: '', endDate: '', description: '' })}><Plus className="mr-2 h-4 w-4" /> Add Experience</Button>
+              <Button type="button" variant="outline" onClick={() => appendExp({ id: uuidv4(), company: '', role: '', startDate: '', endDate: '', description: '' })}><Plus className="mr-2 h-4 w-4" /> {t('builder.addExperienceButton')}</Button>
             </CardContent>
           </Card>
 
@@ -275,26 +276,26 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField control={form.control} name={`education.${index}.institution`} render={({ field }) => <FormItem><FormLabel>{eduLabels.institution}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
                     <FormField control={form.control} name={`education.${index}.degree`} render={({ field }) => <FormItem><FormLabel>{eduLabels.degree}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-                    <FormField control={form.control} name={`education.${index}.fieldOfStudy`} render={({ field }) => <FormItem><FormLabel>Field of Study</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-                    <FormField control={form.control} name={`education.${index}.graduationYear`} render={({ field }) => <FormItem><FormLabel>Graduation Year</FormLabel><FormControl><Input type="number" placeholder="YYYY" {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`education.${index}.fieldOfStudy`} render={({ field }) => <FormItem><FormLabel>{t('builder.fieldOfStudyLabel')}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`education.${index}.graduationYear`} render={({ field }) => <FormItem><FormLabel>{t('builder.graduationYearLabel')}</FormLabel><FormControl><Input type="number" placeholder="YYYY" {...field} /></FormControl><FormMessage /></FormItem>} />
                    </div>
                 </div>
               ))}
-              <Button type="button" variant="outline" onClick={() => appendEdu({ id: uuidv4(), institution: '', degree: '', fieldOfStudy: '', graduationYear: '' })}><Plus className="mr-2 h-4 w-4" /> Add Education</Button>
+              <Button type="button" variant="outline" onClick={() => appendEdu({ id: uuidv4(), institution: '', degree: '', fieldOfStudy: '', graduationYear: '' })}><Plus className="mr-2 h-4 w-4" /> {t('builder.addEducationButton')}</Button>
             </CardContent>
           </Card>
           
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Sparkles /> Skills</CardTitle>
-              <CardDescription>List your skills manually or use AI to infer them from your voice.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><Sparkles /> {t('builder.skillsTitle')}</CardTitle>
+              <CardDescription>{t('builder.skillsDescription')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center gap-2">
                  <Keyboard className="h-5 w-5 text-muted-foreground" />
                  <Input
                   type="text"
-                  placeholder="Enter a skill and press Add"
+                  placeholder={t('builder.skillInputPlaceholder')}
                   value={skillInput}
                   onChange={(e) => setSkillInput(e.target.value)}
                   onKeyDown={(e) => {
@@ -305,13 +306,13 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                   }}
                   className="flex-grow"
                 />
-                <Button type="button" onClick={handleAddSkillFromInput}>Add Skill</Button>
+                <Button type="button" onClick={handleAddSkillFromInput}>{t('builder.addSkillButton')}</Button>
               </div>
               <Separator />
               <VoiceSkillImporter onSkillsAdded={handleSkillsAdded} />
               <Separator />
               <div className="space-y-2">
-                <FormLabel>Your Skills</FormLabel>
+                <FormLabel>{t('builder.yourSkillsLabel')}</FormLabel>
                 <div className="flex flex-wrap gap-2">
                   {skillFields.map((field, index) => (
                     <Badge key={field.id} variant="secondary" className="text-sm py-1 pl-3 pr-2 animate-fade-in">
@@ -321,7 +322,7 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                       </button>
                     </Badge>
                   ))}
-                  {skillFields.length === 0 && <p className="text-sm text-muted-foreground">No skills added yet.</p>}
+                  {skillFields.length === 0 && <p className="text-sm text-muted-foreground">{t('builder.noSkillsMessage')}</p>}
                 </div>
               </div>
             </CardContent>
@@ -329,11 +330,11 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
           
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
             <CardHeader>
-                <CardTitle className="flex items-center gap-2"><FileText /> Notes</CardTitle>
-                <CardDescription>Add personal notes or feedback received. This won't appear on the final resume.</CardDescription>
+                <CardTitle className="flex items-center gap-2"><FileText /> {t('builder.notesTitle')}</CardTitle>
+                <CardDescription>{t('builder.notesDescription')}</CardDescription>
             </CardHeader>
             <CardContent>
-                <FormField control={form.control} name="notes" render={({ field }) => <FormItem><FormControl><Textarea placeholder="e.g., 'Tailor this for marketing roles...'" {...field} /></FormControl><FormMessage /></FormItem>} />
+                <FormField control={form.control} name="notes" render={({ field }) => <FormItem><FormControl><Textarea placeholder={t('builder.notesPlaceholder')} {...field} /></FormControl><FormMessage /></FormItem>} />
             </CardContent>
           </Card>
           
@@ -343,7 +344,7 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
 
           <div className="flex justify-end sticky bottom-0 py-4 bg-background/90 backdrop-blur-sm z-10">
             <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting ? 'Generating...' : 'Save & Get Shareable Link'}
+              {form.formState.isSubmitting ? t('builder.submittingButton') : t('builder.submitButton')}
               <Send className="ml-2 h-4 w-4" />
             </Button>
           </div>

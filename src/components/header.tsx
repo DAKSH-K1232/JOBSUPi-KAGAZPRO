@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { LanguageSwitcher } from './language-switcher';
 
 export function Header() {
   return (
@@ -11,7 +12,7 @@ export function Header() {
           </span>
         </Link>
         <div className="flex flex-1 items-center justify-end space-x-4">
-          {/* Future auth actions can be added here */}
+          <LanguageSwitcher />
         </div>
       </div>
     </header>

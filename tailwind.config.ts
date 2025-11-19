@@ -11,6 +11,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
+        hindi: ['Noto Sans Devanagari', 'sans-serif'],
         headline: ['Inter', 'sans-serif'],
         code: ['monospace'],
       },

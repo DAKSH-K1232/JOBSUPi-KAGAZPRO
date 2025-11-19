@@ -10,17 +10,19 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Header } from '@/components/header';
 import { useParams } from 'next/navigation';
+import { useTranslation } from '@/hooks/use-translation';
 
 export default function ResumePage() {
   const params = useParams();
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [loading, setLoading] = useState(true);
   const id = params.id;
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!id) return;
     try {
-      const storedData = localStorage.getItem('kagaz-pro-resume');
+      const storedData = localStorage.getItem('swar-resume-data');
       if (storedData) {
         const parsedData = JSON.parse(storedData);
         // In a real app, we would fetch based on params.id.
@@ -57,16 +59,16 @@ export default function ResumePage() {
         <div className="container flex items-center justify-center min-h-[calc(100vh-10rem)]">
           <Card className="w-full max-w-md text-center shadow-lg">
             <CardHeader>
-              <CardTitle>Resume Not Found</CardTitle>
+              <CardTitle>{t('resumeNotFound.title')}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">
-                The resume you are looking for could not be found or has been removed.
+                {t('resumeNotFound.description')}
               </p>
               <Button asChild>
                 <Link href="/builder">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to Builder
+                  {t('resumeNotFound.backButton')}
                 </Link>
               </Button>
             </CardContent>

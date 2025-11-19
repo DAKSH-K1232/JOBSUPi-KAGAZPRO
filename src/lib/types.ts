@@ -1,3 +1,5 @@
+export type Language = 'en' | 'hi';
+
 export interface PersonalInfo {
   name: string;
   email: string;
@@ -36,6 +38,7 @@ export interface ResumeData {
   education: Education[];
   skills: string[];
   notes: string;
+  lang: Language;
 }
 
     

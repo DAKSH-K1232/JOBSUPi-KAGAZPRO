@@ -1,0 +1,161 @@
+{
+  "landing": {
+    "tagline": "Your Voice, Your Career.",
+    "description": "Effortlessly craft a professional resume using just your voice. SwarResume is a modern, inclusive resume builder designed for everyone. Tell us your story, and we'll handle the rest.",
+    "cta": "Create Your Resume"
+  },
+  "builder": {
+    "defaultVersionName": "My First Resume",
+    "defaultName": "Your Name",
+    "defaultLocation": "City, Country",
+    "defaultSummary": "A brief professional summary about you.",
+    "versionTitle": "Resume Version",
+    "versionDescription": "Give this version of your resume a name to identify it later.",
+    "versionNameLabel": "Version Name",
+    "profileTypeTitle": "Profile Type",
+    "profileTypeDescription": "Select the category that best describes your line of work. This will tailor the fields for you.",
+    "whiteCollar": {
+      "label": "White Collar",
+      "description": "Office, administrative, or professional jobs.",
+      "expTitle": "Work Experience",
+      "expDescription": "Detail your professional journey.",
+      "expRole": "Role",
+      "expCompany": "Company",
+      "eduTitle": "Education",
+      "eduDescription": "Your academic background.",
+      "eduInstitution": "Institution",
+      "eduDegree": "Degree"
+    },
+    "blueCollar": {
+      "label": "Blue Collar",
+      "description": "Manual labor or skilled trade jobs.",
+      "expTitle": "Work History",
+      "expDescription": "List your previous jobs.",
+      "expRole": "Job Title",
+      "expCompany": "Employer",
+      "eduTitle": "Education & Certifications",
+      "eduDescription": "List your training, certifications, and formal education.",
+      "eduInstitution": "School / Provider",
+      "eduDegree": "Certificate / Degree"
+    },
+    "greyCollar": {
+      "label": "Grey Collar",
+      "description": "Technicians or specialized roles.",
+      "expTitle": "Work Experience",
+      "expDescription": "Detail your technical and professional roles.",
+      "expRole": "Role / Title",
+      "expCompany": "Company / Client",
+      "eduTitle": "Education & Specialized Training",
+      "eduDescription": "Your academic and technical qualifications.",
+      "eduInstitution": "Institution",
+      "eduDegree": "Degree / Certification"
+    },
+    "personalInfoTitle": "Personal Information",
+    "personalInfoDescription": "Let's start with the basics.",
+    "photoLabel": "Profile Photo",
+    "photoUploadButton": "Upload Image",
+    "photoDescription": "Recommended size: 400x400px.",
+    "nameLabel": "Full Name",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "locationLabel": "Location",
+    "locationPlaceholder": "e.g., Mumbai, India",
+    "websiteLabel": "Website/Portfolio (Optional)",
+    "summaryLabel": "Professional Summary",
+    "summaryPlaceholder": "A brief summary of your career and goals.",
+    "startDateLabel": "Start Date",
+    "endDateLabel": "End Date (leave blank if current)",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe your responsibilities and achievements.",
+    "addExperienceButton": "Add Experience",
+    "fieldOfStudyLabel": "Field of Study",
+    "graduationYearLabel": "Graduation Year",
+    "addEducationButton": "Add Education",
+    "skillsTitle": "Skills",
+    "skillsDescription": "List your skills manually or use AI to infer them from your voice.",
+    "skillInputPlaceholder": "Enter a skill and press Add",
+    "addSkillButton": "Add Skill",
+    "yourSkillsLabel": "Your Skills",
+    "noSkillsMessage": "No skills added yet.",
+    "notesTitle": "Notes",
+    "notesDescription": "Add personal notes or feedback received. This won't appear on the final resume.",
+    "notesPlaceholder": "e.g., 'Tailor this for marketing roles...'",
+    "submitButton": "Save & Get Shareable Link",
+    "submittingButton": "Saving..."
+  },
+  "voiceImporter": {
+    "startRecording": "Describe Experience via Voice",
+    "stopRecording": "Stop Recording",
+    "processing": "Processing...",
+    "aiSuggestedSkills": "AI Suggested Skills",
+    "clickToAdd": "Click on a skill to add it to your list.",
+    "noSkillsFound": "The AI could not identify any specific skills. You can try recording again with more details.",
+    "error": "Something went wrong. Please try again.",
+    "tryAgain": "Try again"
+  },
+  "viewer": {
+    "backToEditor": "Back to Editor",
+    "downloadPdf": "Download PDF",
+    "copyLink": "Copy Link",
+    "showQr": "Show QR Code",
+    "qrScan": "Scan to view profile",
+    "defaultRole": "Professional",
+    "summaryTitle": "Summary",
+    "experienceTitle": "Work Experience",
+    "present": "Present",
+    "skillsTitle": "Skills",
+    "educationTitle": "Education",
+    "graduated": "Graduated",
+    "whiteCollar": "White Collar",
+    "blueCollar": "Blue Collar",
+    "greyCollar": "Grey Collar"
+  },
+  "toast": {
+    "resumeSaved": {
+      "title": "Resume Saved!",
+      "description": "Redirecting to your shareable resume page."
+    },
+    "saveError": {
+      "title": "Save Error",
+      "description": "Could not save resume. Your browser storage might be full."
+    },
+    "micError": {
+      "title": "Microphone Error",
+      "description": "Could not access the microphone. Please check your browser permissions."
+    },
+    "aiError": {
+      "title": "AI Error"
+    },
+    "skillsInferred": {
+      "title": "Skills Inferred!",
+      "description": "Click on the skills to add them to your resume."
+    },
+    "linkCopied": {
+      "title": "Link Copied!",
+      "description": "The link to your resume is now on your clipboard."
+    }
+  },
+  "errors": {
+    "profileTypeRequired": "You need to select a profile type.",
+    "versionNameRequired": "Version name is required.",
+    "nameRequired": "Name is required.",
+    "emailInvalid": "Invalid email address.",
+    "phoneRequired": "Phone number is required.",
+    "locationRequired": "Location is required.",
+    "websiteInvalid": "Invalid URL.",
+    "summaryTooShort": "Summary should be at least 10 characters.",
+    "companyRequired": "Company name is required.",
+    "roleRequired": "Role is required.",
+    "startDateRequired": "Start date is required.",
+    "descriptionRequired": "Description is required.",
+    "institutionRequired": "Institution is required.",
+    "degreeRequired": "Degree is required.",
+    "fieldOfStudyRequired": "Field of study is required.",
+    "yearInvalid": "Enter a valid year."
+  },
+  "resumeNotFound": {
+    "title": "Resume Not Found",
+    "description": "The resume you are looking for could not be found or has been removed.",
+    "backButton": "Back to Builder"
+  }
+}

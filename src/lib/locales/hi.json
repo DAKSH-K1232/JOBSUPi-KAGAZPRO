@@ -1,0 +1,161 @@
+{
+  "landing": {
+    "tagline": "आपकी आवाज़, आपका करियर।",
+    "description": "सिर्फ अपनी आवाज का उपयोग करके सहजता से एक पेशेवर रिज्यूमे बनाएं। स्वर-रिज्यूमे सभी के लिए बनाया गया एक आधुनिक, समावेशी रिज्यूमे बिल्डर है। हमें अपनी कहानी बताएं, और बाकी हम संभाल लेंगे।",
+    "cta": "अपना रिज्यूमे बनाएं"
+  },
+  "builder": {
+    "defaultVersionName": "मेरा पहला रिज्यूमे",
+    "defaultName": "आपका नाम",
+    "defaultLocation": "शहर, देश",
+    "defaultSummary": "आपके बारे में एक संक्षिप्त पेशेवर सारांश।",
+    "versionTitle": "रिज्यूमे संस्करण",
+    "versionDescription": "बाद में पहचानने के लिए अपने रिज्यूमे के इस संस्करण को एक नाम दें।",
+    "versionNameLabel": "संस्करण का नाम",
+    "profileTypeTitle": "प्रोफ़ाइल प्रकार",
+    "profileTypeDescription": "वह श्रेणी चुनें जो आपके काम की लाइन का सबसे अच्छा वर्णन करती है। यह आपके लिए फ़ील्ड को अनुकूलित करेगा।",
+    "whiteCollar": {
+      "label": "व्हाइट कॉलर",
+      "description": "कार्यालय, प्रशासनिक, या पेशेवर नौकरियाँ।",
+      "expTitle": "कार्य अनुभव",
+      "expDescription": "अपनी पेशेवर यात्रा का विवरण दें।",
+      "expRole": "भूमिका",
+      "expCompany": "कंपनी",
+      "eduTitle": "शिक्षा",
+      "eduDescription": "आपकी शैक्षणिक पृष्ठभूमि।",
+      "eduInstitution": "संस्थान",
+      "eduDegree": "डिग्री"
+    },
+    "blueCollar": {
+      "label": "ब्लू कॉलर",
+      "description": "शारीरिक श्रम या कुशल व्यापार नौकरियाँ।",
+      "expTitle": "कार्य इतिहास",
+      "expDescription": "अपनी पिछली नौकरियों की सूची बनाएं।",
+      "expRole": "पद का नाम",
+      "expCompany": "नियोक्ता",
+      "eduTitle": "शिक्षा और प्रमाणपत्र",
+      "eduDescription": "अपने प्रशिक्षण, प्रमाणपत्र और औपचारिक शिक्षा की सूची बनाएं।",
+      "eduInstitution": "स्कूल / प्रदाता",
+      "eduDegree": "प्रमाणपत्र / डिग्री"
+    },
+    "greyCollar": {
+      "label": "ग्रे कॉलर",
+      "description": "तकनीशियन या विशेष भूमिकाएँ।",
+      "expTitle": "कार्य अनुभव",
+      "expDescription": "अपनी तकनीकी और पेशेवर भूमिकाओं का विवरण दें।",
+      "expRole": "भूमिका / पद",
+      "expCompany": "कंपनी / ग्राहक",
+      "eduTitle": "शिक्षा और विशेष प्रशिक्षण",
+      "eduDescription": "आपकी शैक्षणिक और तकनीकी योग्यताएं।",
+      "eduInstitution": "संस्थान",
+      "eduDegree": "डिग्री / प्रमाणीकरण"
+    },
+    "personalInfoTitle": "व्यक्तिगत जानकारी",
+    "personalInfoDescription": "चलिए मूल बातों से शुरू करते हैं।",
+    "photoLabel": "प्रोफ़ाइल फ़ोटो",
+    "photoUploadButton": "छवि अपलोड करें",
+    "photoDescription": "अनुशंसित आकार: 400x400px।",
+    "nameLabel": "पूरा नाम",
+    "emailLabel": "ईमेल",
+    "phoneLabel": "फ़ोन",
+    "locationLabel": "स्थान",
+    "locationPlaceholder": "उदा., मुंबई, भारत",
+    "websiteLabel": "वेबसाइट/पोर्टफोलियो (वैकल्पिक)",
+    "summaryLabel": "पेशेवर सारांश",
+    "summaryPlaceholder": "आपके करियर और लक्ष्यों का संक्षिप्त सारांश।",
+    "startDateLabel": "आरंभ तिथि",
+    "endDateLabel": "अंतिम तिथि (यदि वर्तमान है तो खाली छोड़ दें)",
+    "descriptionLabel": "विवरण",
+    "descriptionPlaceholder": "अपनी जिम्मेदारियों और उपलब्धियों का वर्णन करें।",
+    "addExperienceButton": "अनुभव जोड़ें",
+    "fieldOfStudyLabel": "अध्ययन क्षेत्र",
+    "graduationYearLabel": "स्नातक वर्ष",
+    "addEducationButton": "शिक्षा जोड़ें",
+    "skillsTitle": "कौशल",
+    "skillsDescription": "अपने कौशल को मैन्युअल रूप से सूचीबद्ध करें या अपनी आवाज से उनका अनुमान लगाने के लिए AI का उपयोग करें।",
+    "skillInputPlaceholder": "एक कौशल दर्ज करें और जोड़ें दबाएं",
+    "addSkillButton": "कौशल जोड़ें",
+    "yourSkillsLabel": "आपके कौशल",
+    "noSkillsMessage": "अभी तक कोई कौशल नहीं जोड़ा गया है।",
+    "notesTitle": "नोट्स",
+    "notesDescription": "व्यक्तिगत नोट्स या प्राप्त फीडबैक जोड़ें। यह अंतिम रिज्यूमे पर दिखाई नहीं देगा।",
+    "notesPlaceholder": "उदा., 'इसे मार्केटिंग भूमिकाओं के लिए तैयार करें...'",
+    "submitButton": "सहेजें और साझा करने योग्य लिंक प्राप्त करें",
+    "submittingButton": "सहेज रहा है..."
+  },
+  "voiceImporter": {
+    "startRecording": "आवाज के माध्यम से अनुभव का वर्णन करें",
+    "stopRecording": "रिकॉर्डिंग बंद करें",
+    "processing": "प्रसंस्करण हो रहा है...",
+    "aiSuggestedSkills": "एआई द्वारा सुझाए गए कौशल",
+    "clickToAdd": "कौशल को अपनी सूची में जोड़ने के लिए उस पर क्लिक करें।",
+    "noSkillsFound": "एआई किसी विशिष्ट कौशल की पहचान नहीं कर सका। आप अधिक विवरण के साथ फिर से रिकॉर्ड करने का प्रयास कर सकते हैं।",
+    "error": "कुछ गलत हो गया। कृपया फिर से प्रयास करें।",
+    "tryAgain": "पुनः प्रयास करें"
+  },
+  "viewer": {
+    "backToEditor": "संपादक पर वापस जाएं",
+    "downloadPdf": "पीडीएफ डाउनलोड करें",
+    "copyLink": "लिंक कॉपी करें",
+    "showQr": "क्यूआर कोड दिखाएं",
+    "qrScan": "प्रोफ़ाइल देखने के लिए स्कैन करें",
+    "defaultRole": "पेशेवर",
+    "summaryTitle": "सारांश",
+    "experienceTitle": "कार्य अनुभव",
+    "present": "वर्तमान",
+    "skillsTitle": "कौशल",
+    "educationTitle": "शिक्षा",
+    "graduated": "स्नातक",
+    "whiteCollar": "व्हाइट कॉलर",
+    "blueCollar": "ब्लू कॉलर",
+    "greyCollar": "ग्रे कॉलर"
+  },
+  "toast": {
+    "resumeSaved": {
+      "title": "रिज्यूमे सहेजा गया!",
+      "description": "आपको आपके साझा करने योग्य रिज्यूमे पृष्ठ पर रीडायरेक्ट किया जा रहा है।"
+    },
+    "saveError": {
+      "title": "सहेजने में त्रुटि",
+      "description": "रिज्यूमे सहेजा नहीं जा सका। आपका ब्राउज़र संग्रहण भरा हो सकता है।"
+    },
+    "micError": {
+      "title": "माइक्रोफ़ोन त्रुटि",
+      "description": "माइक्रोफ़ोन तक नहीं पहुंचा जा सका। कृपया अपनी ब्राउज़र अनुमतियों की जांच करें।"
+    },
+    "aiError": {
+      "title": "एआई त्रुटि"
+    },
+    "skillsInferred": {
+      "title": "कौशल का अनुमान लगाया गया!",
+      "description": "कौशल को अपने रिज्यूमे में जोड़ने के लिए उन पर क्लिक करें।"
+    },
+    "linkCopied": {
+      "title": "लिंक कॉपी किया गया!",
+      "description": "आपके रिज्यूमे का लिंक अब आपके क्लिपबोर्ड पर है।"
+    }
+  },
+  "errors": {
+    "profileTypeRequired": "आपको एक प्रोफ़ाइल प्रकार चुनना होगा।",
+    "versionNameRequired": "संस्करण का नाम आवश्यक है।",
+    "nameRequired": "नाम आवश्यक है।",
+    "emailInvalid": "अमान्य ईमेल पता।",
+    "phoneRequired": "फ़ोन नंबर आवश्यक है।",
+    "locationRequired": "स्थान आवश्यक है।",
+    "websiteInvalid": "अमान्य यूआरएल।",
+    "summaryTooShort": "सारांश कम से कम 10 अक्षरों का होना चाहिए।",
+    "companyRequired": "कंपनी का नाम आवश्यक है।",
+    "roleRequired": "भूमिका आवश्यक है।",
+    "startDateRequired": "आरंभ तिथि आवश्यक है।",
+    "descriptionRequired": "विवरण आवश्यक है।",
+    "institutionRequired": "संस्थान आवश्यक है।",
+    "degreeRequired": "डिग्री आवश्यक है।",
+    "fieldOfStudyRequired": "अध्ययन क्षेत्र आवश्यक है।",
+    "yearInvalid": "एक मान्य वर्ष दर्ज करें।"
+  },
+  "resumeNotFound": {
+    "title": "रिज्यूमे नहीं मिला",
+    "description": "जिस रिज्यूमे को आप ढूंढ रहे हैं वह नहीं मिला या हटा दिया गया है।",
+    "backButton": "बिल्डर पर वापस जाएं"
+  }
+}

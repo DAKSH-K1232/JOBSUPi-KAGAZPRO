@@ -1,9 +1,14 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/header';
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from '@/hooks/use-translation';
 
 export default function LandingPage() {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -13,15 +18,15 @@ export default function LandingPage() {
             SwarResume
           </h1>
           <p className="mt-4 text-xl md:text-2xl text-muted-foreground">
-            Your Voice, Your Career.
+            {t('landing.tagline')}
           </p>
           <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Effortlessly craft a professional resume using just your voice. SwarResume is a modern, inclusive resume builder designed for everyone. Tell us your story, and we&apos;ll handle the rest.
+            {t('landing.description')}
           </p>
           <div className="mt-10">
             <Button asChild size="lg">
               <Link href="/builder">
-                Create Your Resume
+                {t('landing.cta')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>

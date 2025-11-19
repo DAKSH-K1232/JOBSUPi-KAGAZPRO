@@ -9,55 +9,58 @@ import { ResumeBuilder } from '@/components/resume-builder';
 import { ResumeViewer } from '@/components/resume-viewer';
 import { useEffect, useState } from 'react';
 import type { ResumeData } from '@/lib/types';
-import { Button } from '@/components/ui/button';
-import { Send } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from '@/hooks/use-translation';
+import { useLanguage } from '@/context/language-context';
 
-const resumeSchema = z.object({
+const resumeSchema = (t: (key: string) => string) => z.object({
   profileType: z.enum(['white-collar', 'blue-collar', 'grey-collar'], {
-    required_error: 'You need to select a profile type.',
+    required_error: t('errors.profileTypeRequired'),
   }),
-  versionName: z.string().min(1, 'Version name is required.'),
+  versionName: z.string().min(1, t('errors.versionNameRequired')),
   personalInfo: z.object({
-    name: z.string().min(1, 'Name is required.'),
-    email: z.string().email('Invalid email address.'),
-    phone: z.string().min(1, 'Phone number is required.'),
-    location: z.string().min(1, 'Location is required.'),
-    website: z.string().url('Invalid URL.').or(z.literal('')),
-    summary: z.string().min(10, 'Summary should be at least 10 characters.'),
+    name: z.string().min(1, t('errors.nameRequired')),
+    email: z.string().email(t('errors.emailInvalid')),
+    phone: z.string().min(1, t('errors.phoneRequired')),
+    location: z.string().min(1, t('errors.locationRequired')),
+    website: z.string().url(t('errors.websiteInvalid')).or(z.literal('')),
+    summary: z.string().min(10, t('errors.summaryTooShort')),
     photoUrl: z.string().optional(),
   }),
   experience: z.array(z.object({
     id: z.string(),
-    company: z.string().min(1, 'Company name is required.'),
-    role: z.string().min(1, 'Role is required.'),
-    startDate: z.string().min(1, 'Start date is required.'),
+    company: z.string().min(1, t('errors.companyRequired')),
+    role: z.string().min(1, t('errors.roleRequired')),
+    startDate: z.string().min(1, t('errors.startDateRequired')),
     endDate: z.string(),
-    description: z.string().min(1, 'Description is required.'),
+    description: z.string().min(1, t('errors.descriptionRequired')),
   })),
   education: z.array(z.object({
     id: z.string(),
-    institution: z.string().min(1, 'Institution is required.'),
-    degree: z.string().min(1, 'Degree is required.'),
-    fieldOfStudy: z.string().min(1, 'Field of study is required.'),
-    graduationYear: z.string().min(4, 'Enter a valid year.').max(4),
+    institution: z.string().min(1, t('errors.institutionRequired')),
+    degree: z.string().min(1, t('errors.degreeRequired')),
+    fieldOfStudy: z.string().min(1, t('errors.fieldOfStudyRequired')),
+    graduationYear: z.string().min(4, t('errors.yearInvalid')).max(4),
   })),
   skills: z.array(z.string()),
   notes: z.string(),
 });
 
+
 export default function BuilderPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { t } = useTranslation();
+  const { language } = useLanguage();
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
 
-  const form = useForm<z.infer<typeof resumeSchema>>({
-    resolver: zodResolver(resumeSchema),
+  const form = useForm<z.infer<ReturnType<typeof resumeSchema>>>({
+    resolver: zodResolver(resumeSchema(t)),
     defaultValues: {
       profileType: 'white-collar',
-      versionName: 'My First Resume',
-      personalInfo: { name: 'Your Name', email: 'your.email@example.com', phone: '9876543210', location: 'City, Country', website: '', summary: 'A brief professional summary about you.', photoUrl: '' },
+      versionName: t('builder.defaultVersionName'),
+      personalInfo: { name: t('builder.defaultName'), email: 'your.email@example.com', phone: '9876543210', location: t('builder.defaultLocation'), website: '', summary: t('builder.defaultSummary'), photoUrl: '' },
       experience: [],
       education: [],
       skills: [],
@@ -66,36 +69,48 @@ export default function BuilderPage() {
     mode: 'onChange',
   });
 
+  useEffect(() => {
+    form.reset({
+      profileType: 'white-collar',
+      versionName: t('builder.defaultVersionName'),
+      personalInfo: { name: t('builder.defaultName'), email: 'your.email@example.com', phone: '9876543210', location: t('builder.defaultLocation'), website: '', summary: t('builder.defaultSummary'), photoUrl: '' },
+      experience: [],
+      education: [],
+      skills: [],
+      notes: '',
+    });
+  }, [language, t, form]);
+
   const watchedData = form.watch();
 
   useEffect(() => {
     const subscription = form.watch((value) => {
-      const dataWithId = { ...value, id: 'live-preview' } as ResumeData;
+      const dataWithId = { ...value, id: 'live-preview', lang: language } as ResumeData;
       setResumeData(dataWithId);
     });
     // Set initial data for preview
-    const dataWithId = { ...form.getValues(), id: 'live-preview' } as ResumeData;
+    const dataWithId = { ...form.getValues(), id: 'live-preview', lang: language } as ResumeData;
     setResumeData(dataWithId);
 
     return () => subscription.unsubscribe();
-  }, [form]);
+  }, [form, language]);
 
-  const onSubmit = (data: z.infer<typeof resumeSchema>) => {
+  const onSubmit = (data: z.infer<ReturnType<typeof resumeSchema>>) => {
     const resumeId = uuidv4();
-    const fullResumeData = { ...data, id: resumeId };
+    const fullResumeData = { ...data, id: resumeId, lang: language };
     try {
-      localStorage.setItem('kagaz-pro-resume', JSON.stringify(fullResumeData));
+      localStorage.setItem('swar-resume-data', JSON.stringify(fullResumeData));
       toast({
-        title: 'Resume Saved!',
-        description: 'Redirecting to your shareable resume page.',
+        title: t('toast.resumeSaved.title'),
+        description: t('toast.resumeSaved.description'),
       });
       router.push(`/resume/${resumeId}`);
     } catch (error) {
       console.error("Failed to save resume to local storage", error);
       toast({
         variant: 'destructive',
-        title: 'Save Error',
-        description: 'Could not save resume. Your browser storage might be full.',
+        title: t('toast.saveError.title'),
+        description: t('toast.saveError.description'),
       });
     }
   };

@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { getSkillsFromVoice } from '@/app/actions';
 import { Badge } from './ui/badge';
 import { Card, CardContent } from './ui/card';
+import { useTranslation } from '@/hooks/use-translation';
 
 interface VoiceSkillImporterProps {
   onSkillsAdded: (skills: string[]) => void;
@@ -15,6 +16,7 @@ interface VoiceSkillImporterProps {
 type RecordingStatus = 'idle' | 'recording' | 'processing' | 'success' | 'error';
 
 export function VoiceSkillImporter({ onSkillsAdded }: VoiceSkillImporterProps) {
+  const { t } = useTranslation();
   const [status, setStatus] = useState<RecordingStatus>('idle');
   const [inferredSkills, setInferredSkills] = useState<string[]>([]);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -36,8 +38,8 @@ export function VoiceSkillImporter({ onSkillsAdded }: VoiceSkillImporterProps) {
       console.error('Error accessing microphone:', error);
       toast({
         variant: 'destructive',
-        title: 'Microphone Error',
-        description: 'Could not access the microphone. Please check your browser permissions.',
+        title: t('toast.micError.title'),
+        description: t('toast.micError.description'),
       });
       setStatus('error');
     }
@@ -60,12 +62,12 @@ export function VoiceSkillImporter({ onSkillsAdded }: VoiceSkillImporterProps) {
       const base64Audio = reader.result as string;
       const result = await getSkillsFromVoice(base64Audio);
       if (result.error) {
-        toast({ variant: 'destructive', title: 'AI Error', description: result.error });
+        toast({ variant: 'destructive', title: t('toast.aiError.title'), description: result.error });
         setStatus('error');
       } else {
         setInferredSkills(result.skills);
         setStatus('success');
-        toast({ title: 'Skills Inferred!', description: 'Click on the skills to add them to your resume.' });
+        toast({ title: t('toast.skillsInferred.title'), description: t('toast.skillsInferred.description') });
       }
     };
   };
@@ -86,12 +88,12 @@ export function VoiceSkillImporter({ onSkillsAdded }: VoiceSkillImporterProps) {
         {status !== 'recording' ? (
           <Button type="button" onClick={startRecording} disabled={status === 'processing'}>
             {status === 'processing' ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mic className="mr-2 h-4 w-4" />}
-            {status === 'processing' ? 'Processing...' : 'Describe Experience via Voice'}
+            {status === 'processing' ? t('voiceImporter.processing') : t('voiceImporter.startRecording')}
           </Button>
         ) : (
           <Button type="button" onClick={stopRecording} variant="destructive">
             <Square className="mr-2 h-4 w-4" />
-            Stop Recording
+            {t('voiceImporter.stopRecording')}
           </Button>
         )}
       </div>
@@ -100,12 +102,12 @@ export function VoiceSkillImporter({ onSkillsAdded }: VoiceSkillImporterProps) {
         <Card className="bg-primary/5">
           <CardContent className="p-4 space-y-3">
              <div className="flex justify-between items-center">
-              <h3 className="text-sm font-semibold flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> AI Suggested Skills</h3>
+              <h3 className="text-sm font-semibold flex items-center gap-2"><Sparkles className="h-4 w-4 text-primary" /> {t('voiceImporter.aiSuggestedSkills')}</h3>
               <Button variant="ghost" size="icon" className="h-6 w-6" onClick={reset}>
                 <X className="h-4 w-4" />
               </Button>
             </div>
-            <p className="text-sm text-muted-foreground">Click on a skill to add it to your list.</p>
+            <p className="text-sm text-muted-foreground">{t('voiceImporter.clickToAdd')}</p>
             {inferredSkills.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                 {inferredSkills.map(skill => (
@@ -119,15 +121,15 @@ export function VoiceSkillImporter({ onSkillsAdded }: VoiceSkillImporterProps) {
                 ))}
                 </div>
             ) : (
-                <p className="text-sm text-muted-foreground">The AI could not identify any specific skills. You can try recording again with more details.</p>
+                <p className="text-sm text-muted-foreground">{t('voiceImporter.noSkillsFound')}</p>
             )}
           </CardContent>
         </Card>
       )}
       {status === 'error' && (
          <div className="text-sm text-destructive">
-            <p>Something went wrong. Please try again.</p>
-             <Button variant="link" className="p-0 h-auto" onClick={reset}>Try again</Button>
+            <p>{t('voiceImporter.error')}</p>
+             <Button variant="link" className="p-0 h-auto" onClick={reset}>{t('voiceImporter.tryAgain')}</Button>
          </div>
       )}
     </div>
