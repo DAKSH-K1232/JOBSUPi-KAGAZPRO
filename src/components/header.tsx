@@ -12,7 +12,7 @@ export function Header() {
         <div className="flex-1 flex justify-center">
           <Link href="/" className="flex items-center space-x-2">
             <span className="font-bold text-lg sm:inline-block">
-              Swar<span className="text-accent">Resume</span>
+              Kagaz<span className="text-accent">Pro</span>
             </span>
           </Link>
         </div>

@@ -14,7 +14,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
 
   useEffect(() => {
-    const storedLang = localStorage.getItem('swar-resume-language') as Language;
+    const storedLang = localStorage.getItem('kagaz-pro-language') as Language;
     if (storedLang) {
       setLanguage(storedLang);
     }
@@ -22,7 +22,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem('swar-resume-language', lang);
+    localStorage.setItem('kagaz-pro-language', lang);
     document.documentElement.lang = lang;
   };
 

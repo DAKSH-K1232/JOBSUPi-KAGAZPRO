@@ -22,7 +22,7 @@ export default function ResumePage() {
   useEffect(() => {
     if (!id) return;
     try {
-      const storedData = localStorage.getItem('swar-resume-data');
+      const storedData = localStorage.getItem('kagaz-pro-resume-data');
       if (storedData) {
         const parsedData = JSON.parse(storedData);
         // In a real app, we would fetch based on params.id.

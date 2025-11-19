@@ -15,7 +15,7 @@ export default function LandingPage() {
       <main className="flex-grow flex items-center justify-center animate-fade-in-up">
         <div className="container mx-auto px-4 text-center max-w-3xl">
           <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-            SwarResume
+            KagazPro
           </h1>
           <p className="mt-4 text-xl md:text-2xl text-muted-foreground">
             {t('landing.tagline')}

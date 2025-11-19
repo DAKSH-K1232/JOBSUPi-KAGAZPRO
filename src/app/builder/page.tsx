@@ -102,7 +102,7 @@ export default function BuilderPage() {
     const resumeId = uuidv4();
     const fullResumeData = { ...data, id: resumeId, lang: language };
     try {
-      localStorage.setItem('swar-resume-data', JSON.stringify(fullResumeData));
+      localStorage.setItem('kagaz-pro-resume-data', JSON.stringify(fullResumeData));
       toast({
         title: t('toast.resumeSaved.title'),
         description: t('toast.resumeSaved.description'),
