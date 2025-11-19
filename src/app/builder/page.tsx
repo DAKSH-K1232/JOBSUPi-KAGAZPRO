@@ -120,17 +120,17 @@ export default function BuilderPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
-      <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-57px)] overflow-hidden relative">
-        <div className={`lg:overflow-y-auto ${showPreview ? '' : 'lg:col-span-2'}`}>
-          <ResumeBuilder form={form} onSubmit={onSubmit} />
-        </div>
-        
-        <div className="absolute top-4 right-4 z-20 hidden lg:block">
+      <Header>
+        <div className="hidden lg:block">
             <Button variant="outline" size="icon" onClick={() => setShowPreview(!showPreview)} aria-label={t('builder.togglePreview')}>
               {showPreview ? <EyeOff /> : <Eye />}
               <span className="sr-only">{showPreview ? t('builder.hidePreview') : t('builder.showPreview')}</span>
             </Button>
+        </div>
+      </Header>
+      <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-57px)] overflow-hidden">
+        <div className={`lg:overflow-y-auto ${showPreview ? '' : 'lg:col-span-2'}`}>
+          <ResumeBuilder form={form} onSubmit={onSubmit} />
         </div>
 
         {showPreview && (

@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { LanguageSwitcher } from './language-switcher';
 import { UserNav } from './user-nav';
+import type { ReactNode } from 'react';
 
-export function Header() {
+export function Header({ children }: { children?: ReactNode }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -17,6 +18,7 @@ export function Header() {
           </Link>
         </div>
         <div className="flex-1 flex justify-end items-center gap-2">
+          {children}
           <LanguageSwitcher />
           <UserNav />
         </div>
