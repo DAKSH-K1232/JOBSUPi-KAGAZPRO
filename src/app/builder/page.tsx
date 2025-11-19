@@ -13,6 +13,8 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from '@/hooks/use-translation';
 import { useLanguage } from '@/context/language-context';
+import { Button } from '@/components/ui/button';
+import { Eye, EyeOff } from 'lucide-react';
 
 const resumeSchema = (t: (key: string) => string) => z.object({
   profileType: z.enum(['white-collar', 'blue-collar', 'grey-collar'], {
@@ -54,6 +56,7 @@ export default function BuilderPage() {
   const { t } = useTranslation();
   const { language } = useLanguage();
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
+  const [showPreview, setShowPreview] = useState(true);
 
   const form = useForm<z.infer<ReturnType<typeof resumeSchema>>>({
     resolver: zodResolver(resumeSchema(t)),
@@ -118,17 +121,27 @@ export default function BuilderPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-57px)] overflow-hidden">
-        <div className="lg:overflow-y-auto">
+      <div className="flex-grow grid grid-cols-1 lg:grid-cols-2 lg:h-[calc(100vh-57px)] overflow-hidden relative">
+        <div className={`lg:overflow-y-auto ${showPreview ? '' : 'lg:col-span-2'}`}>
           <ResumeBuilder form={form} onSubmit={onSubmit} />
         </div>
-        <div className="hidden lg:block bg-muted/20 lg:overflow-y-auto p-4">
-          {resumeData ? (
-            <div className="transform scale-[0.85] origin-top">
-                <ResumeViewer resumeData={resumeData} isPreview />
-            </div>
-          ) : null}
+        
+        <div className="absolute top-4 right-4 z-20 hidden lg:block">
+            <Button variant="outline" size="icon" onClick={() => setShowPreview(!showPreview)}>
+              {showPreview ? <EyeOff /> : <Eye />}
+              <span className="sr-only">{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
+            </Button>
         </div>
+
+        {showPreview && (
+            <div className="hidden lg:block bg-muted/20 lg:overflow-y-auto p-4">
+            {resumeData ? (
+                <div className="transform scale-[0.85] origin-top">
+                    <ResumeViewer resumeData={resumeData} isPreview />
+                </div>
+            ) : null}
+            </div>
+        )}
       </div>
     </div>
   );
