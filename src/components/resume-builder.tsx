@@ -64,6 +64,8 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
   const { fields: expFields, append: appendExp, remove: removeExp } = useFieldArray({ control: form.control, name: 'experience' });
   const { fields: eduFields, append: appendEdu, remove: removeEdu } = useFieldArray({ control: form.control, name: 'education' });
   const { fields: skillFields, append: appendSkill, remove: removeSkill } = useFieldArray({ control: form.control, name: 'skills' });
+  
+  const profileType = form.watch('profileType');
 
   const handleSkillsAdded = (newSkills: string[]) => {
     const currentSkills = form.getValues('skills');
@@ -90,6 +92,30 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
   };
 
   const photoUrl = form.watch('personalInfo.photoUrl');
+
+  const getExperienceLabels = () => {
+    switch (profileType) {
+      case 'blue-collar':
+        return { title: 'Work History', description: 'List your previous jobs.', role: 'Job Title', company: 'Employer' };
+      case 'grey-collar':
+        return { title: 'Work Experience', description: 'Detail your technical and professional roles.', role: 'Role / Title', company: 'Company / Client' };
+      default: // white-collar
+        return { title: 'Work Experience', description: 'Detail your professional journey.', role: 'Role', company: 'Company' };
+    }
+  };
+  const expLabels = getExperienceLabels();
+
+  const getEducationLabels = () => {
+    switch (profileType) {
+      case 'blue-collar':
+        return { title: 'Education & Certifications', description: 'List your training, certifications, and formal education.', institution: 'School / Provider', degree: 'Certificate / Degree' };
+      case 'grey-collar':
+        return { title: 'Education & Specialized Training', description: 'Your academic and technical qualifications.', institution: 'Institution', degree: 'Degree / Certification' };
+      default: // white-collar
+        return { title: 'Education', description: 'Your academic background.', institution: 'Institution', degree: 'Degree' };
+    }
+  };
+  const eduLabels = getEducationLabels();
 
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
@@ -118,7 +144,7 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><UserSquare /> Profile Type</CardTitle>
-              <CardDescription>Select the category that best describes your line of work.</CardDescription>
+              <CardDescription>Select the category that best describes your line of work. This will tailor the fields for you.</CardDescription>
             </CardHeader>
             <CardContent>
                <FormField
@@ -208,23 +234,25 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                 <FormField control={form.control} name="personalInfo.phone" render={({ field }) => <FormItem><FormLabel>Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
                 <FormField control={form.control} name="personalInfo.location" render={({ field }) => <FormItem><FormLabel>Location</FormLabel><FormControl><Input placeholder="e.g., Mumbai, India" {...field} /></FormControl><FormMessage /></FormItem>} />
               </div>
-              <FormField control={form.control} name="personalInfo.website" render={({ field }) => <FormItem><FormLabel>Website/Portfolio (Optional)</FormLabel><FormControl><Input placeholder="https://yourportfolio.com" {...field} /></FormControl><FormMessage /></FormItem>} />
+              {profileType !== 'blue-collar' && (
+                <FormField control={form.control} name="personalInfo.website" render={({ field }) => <FormItem><FormLabel>Website/Portfolio (Optional)</FormLabel><FormControl><Input placeholder="https://yourportfolio.com" {...field} /></FormControl><FormMessage /></FormItem>} />
+              )}
               <FormField control={form.control} name="personalInfo.summary" render={({ field }) => <FormItem><FormLabel>Professional Summary</FormLabel><FormControl><Textarea placeholder="A brief summary of your career and goals." {...field} /></FormControl><FormMessage /></FormItem>} />
             </CardContent>
           </Card>
 
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Briefcase /> Work Experience</CardTitle>
-              <CardDescription>Detail your professional journey.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><Briefcase /> {expLabels.title}</CardTitle>
+              <CardDescription>{expLabels.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {expFields.map((field, index) => (
                 <div key={field.id} className="p-4 border rounded-lg relative space-y-4 animate-fade-in">
                   <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => removeExp(index)}><Trash2 className="h-4 w-4" /></Button>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField control={form.control} name={`experience.${index}.role`} render={({ field }) => <FormItem><FormLabel>Role</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-                    <FormField control={form.control} name={`experience.${index}.company`} render={({ field }) => <FormItem><FormLabel>Company</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`experience.${index}.role`} render={({ field }) => <FormItem><FormLabel>{expLabels.role}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`experience.${index}.company`} render={({ field }) => <FormItem><FormLabel>{expLabels.company}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
                     <FormField control={form.control} name={`experience.${index}.startDate`} render={({ field }) => <FormItem><FormLabel>Start Date</FormLabel><FormControl><Input type="month" {...field} /></FormControl><FormMessage /></FormItem>} />
                     <FormField control={form.control} name={`experience.${index}.endDate`} render={({ field }) => <FormItem><FormLabel>End Date (leave blank if current)</FormLabel><FormControl><Input type="month" {...field} /></FormControl><FormMessage /></FormItem>} />
                   </div>
@@ -237,16 +265,16 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
 
           <Card className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><GraduationCap /> Education</CardTitle>
-              <CardDescription>Your academic background.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><GraduationCap /> {eduLabels.title}</CardTitle>
+              <CardDescription>{eduLabels.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {eduFields.map((field, index) => (
                 <div key={field.id} className="p-4 border rounded-lg relative space-y-4 animate-fade-in">
                    <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => removeEdu(index)}><Trash2 className="h-4 w-4" /></Button>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <FormField control={form.control} name={`education.${index}.institution`} render={({ field }) => <FormItem><FormLabel>Institution</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-                    <FormField control={form.control} name={`education.${index}.degree`} render={({ field }) => <FormItem><FormLabel>Degree</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`education.${index}.institution`} render={({ field }) => <FormItem><FormLabel>{eduLabels.institution}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+                    <FormField control={form.control} name={`education.${index}.degree`} render={({ field }) => <FormItem><FormLabel>{eduLabels.degree}</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
                     <FormField control={form.control} name={`education.${index}.fieldOfStudy`} render={({ field }) => <FormItem><FormLabel>Field of Study</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
                     <FormField control={form.control} name={`education.${index}.graduationYear`} render={({ field }) => <FormItem><FormLabel>Graduation Year</FormLabel><FormControl><Input type="number" placeholder="YYYY" {...field} /></FormControl><FormMessage /></FormItem>} />
                    </div>
