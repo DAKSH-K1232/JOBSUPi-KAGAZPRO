@@ -9,19 +9,23 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Header } from '@/components/header';
+import { useParams } from 'next/navigation';
 
-export default function ResumePage({ params }: { params: { id: string } }) {
+export default function ResumePage() {
+  const params = useParams();
   const [resumeData, setResumeData] = useState<ResumeData | null>(null);
   const [loading, setLoading] = useState(true);
+  const id = params.id;
 
   useEffect(() => {
+    if (!id) return;
     try {
       const storedData = localStorage.getItem('kagaz-pro-resume');
       if (storedData) {
         const parsedData = JSON.parse(storedData);
         // In a real app, we would fetch based on params.id.
         // For this demo, we just use the one in local storage if ID matches.
-        if (parsedData.id === params.id) {
+        if (parsedData.id === id) {
           setResumeData(parsedData);
         }
       }
@@ -30,7 +34,7 @@ export default function ResumePage({ params }: { params: { id: string } }) {
     } finally {
       setLoading(false);
     }
-  }, [params.id]);
+  }, [id]);
 
   if (loading) {
     return (
