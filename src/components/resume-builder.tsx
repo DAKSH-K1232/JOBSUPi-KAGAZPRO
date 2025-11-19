@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFieldArray, type UseFormReturn } from 'react-hook-form';
@@ -160,28 +161,22 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
                         className="grid grid-cols-1 md:grid-cols-3 gap-4"
                       >
                         <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
-                          <FormControl>
-                            <RadioGroupItem value="white-collar" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
+                          <RadioGroupItem value="white-collar" id="white-collar" />
+                          <FormLabel htmlFor="white-collar" className="font-normal cursor-pointer flex-1">
                             <span className="font-semibold block">{t('builder.whiteCollar.label')}</span>
                             <span className="text-sm text-muted-foreground">{t('builder.whiteCollar.description')}</span>
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
-                          <FormControl>
-                            <RadioGroupItem value="blue-collar" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
+                          <RadioGroupItem value="blue-collar" id="blue-collar" />
+                          <FormLabel htmlFor="blue-collar" className="font-normal cursor-pointer flex-1">
                              <span className="font-semibold block">{t('builder.blueCollar.label')}</span>
                             <span className="text-sm text-muted-foreground">{t('builder.blueCollar.description')}</span>
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
-                          <FormControl>
-                            <RadioGroupItem value="grey-collar" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
+                          <RadioGroupItem value="grey-collar" id="grey-collar" />
+                          <FormLabel htmlFor="grey-collar" className="font-normal cursor-pointer flex-1">
                              <span className="font-semibold block">{t('builder.greyCollar.label')}</span>
                             <span className="text-sm text-muted-foreground">{t('builder.greyCollar.description')}</span>
                           </FormLabel>
@@ -353,3 +348,5 @@ export function ResumeBuilder({ form, onSubmit }: ResumeBuilderProps) {
     </div>
   );
 }
+
+    
