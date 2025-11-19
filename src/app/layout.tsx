@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Kagaz Pro | Universal Resume Builder',
-  description: 'An inclusive, multi-modal resume builder for the Bharat workforce. Create your professional resume using voice, forms, and share it with a QR code.',
+  title: 'SwarResume | Your Voice, Your Career',
+  description: 'Craft your professional resume with your voice. SwarResume is a modern, inclusive resume builder for the Bharat workforce.',
 };
 
 export default function RootLayout({
