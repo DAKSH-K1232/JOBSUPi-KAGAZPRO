@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -73,20 +74,21 @@ export default function BuilderPage() {
   });
 
   useEffect(() => {
-    form.reset({
-      profileType: 'white-collar',
+    const newDefaults = {
       versionName: t('builder.defaultVersionName'),
-      personalInfo: { name: t('builder.defaultName'), email: 'your.email@example.com', phone: '9876543210', location: t('builder.defaultLocation'), website: '', summary: t('builder.defaultSummary'), photoUrl: '' },
-      experience: [],
-      education: [],
-      skills: [],
-      notes: '',
-    });
+      personalInfo: {
+        ...form.getValues('personalInfo'),
+        name: t('builder.defaultName'),
+        location: t('builder.defaultLocation'),
+        summary: t('builder.defaultSummary'),
+      }
+    };
+    form.reset(newDefaults, { keepDirtyValues: true, keepValues: true });
   }, [language]);
 
   useEffect(() => {
     const subscription = form.watch((value) => {
-      const dataWithId = { ...value, id: 'live-preview', lang: language } as ResumeData;
+      const dataWithId = { ...(value as any), id: 'live-preview', lang: language } as ResumeData;
       setResumeData(dataWithId);
     });
     // Set initial data for preview
