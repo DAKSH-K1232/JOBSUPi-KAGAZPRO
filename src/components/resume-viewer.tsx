@@ -21,15 +21,17 @@ const profileTypeLabels: Record<ProfileType, string> = {
   'grey-collar': 'Grey Collar',
 };
 
-export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
+export function ResumeViewer({ resumeData, isPreview = false }: { resumeData: ResumeData, isPreview?: boolean }) {
   const componentRef = useRef<HTMLDivElement>(null);
   const [url, setUrl] = useState('');
   const { toast } = useToast();
 
   useEffect(() => {
     // This runs only on the client, so window is available.
-    setUrl(window.location.href);
-  }, []);
+    if (!isPreview) {
+      setUrl(window.location.href);
+    }
+  }, [isPreview]);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -57,51 +59,53 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
   const profileTypeLabel = profileTypeLabels[resumeData.profileType];
 
   return (
-    <div className="bg-background min-h-screen">
-      <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-        <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-          <Button variant="outline" asChild>
-            <Link href="/builder">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Editor
-            </Link>
-          </Button>
-          <div className="flex gap-2 flex-wrap">
-            <Button onClick={handlePrint}>
-              <Download className="mr-2 h-4 w-4" />
-              Download PDF
+    <div className={`bg-background min-h-screen ${isPreview ? '' : 'p-4 sm:p-6 lg:p-8'}`}>
+      <div className="container mx-auto">
+        {!isPreview && (
+          <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
+            <Button variant="outline" asChild>
+              <Link href="/builder">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Editor
+              </Link>
             </Button>
-            {url && (
-              <>
-                <Button variant="secondary" onClick={handleCopyLink}>
-                  <Share2 className="mr-2 h-4 w-4" />
-                  Copy Link
-                </Button>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="secondary">
-                      <QrCode className="mr-2 h-4 w-4" />
-                      Show QR Code
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto">
-                    <div className="p-4 bg-white rounded-md">
-                      <QRCode value={url} size={160} />
-                    </div>
-                    <p className="text-center text-sm text-muted-foreground mt-2">Scan to view profile</p>
-                  </PopoverContent>
-                </Popover>
-              </>
-            )}
+            <div className="flex gap-2 flex-wrap">
+              <Button onClick={handlePrint}>
+                <Download className="mr-2 h-4 w-4" />
+                Download PDF
+              </Button>
+              {url && (
+                <>
+                  <Button variant="secondary" onClick={handleCopyLink}>
+                    <Share2 className="mr-2 h-4 w-4" />
+                    Copy Link
+                  </Button>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="secondary">
+                        <QrCode className="mr-2 h-4 w-4" />
+                        Show QR Code
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto">
+                      <div className="p-4 bg-white rounded-md">
+                        <QRCode value={url} size={160} />
+                      </div>
+                      <p className="text-center text-sm text-muted-foreground mt-2">Scan to view profile</p>
+                    </PopoverContent>
+                  </Popover>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
-        <Card className="max-w-4xl mx-auto shadow-lg overflow-hidden">
+        <Card className={`max-w-4xl mx-auto shadow-lg overflow-hidden ${isPreview ? 'border-none shadow-xl' : ''}`}>
           <div ref={componentRef} className="p-6 sm:p-8 md:p-10 text-foreground bg-card font-body">
             <header className="flex flex-col sm:flex-row items-center gap-6 mb-8">
               <Avatar className="h-24 w-24 sm:h-32 sm:w-32 border-4 border-primary">
                 {avatar && <AvatarImage src={avatar.imageUrl} alt={name} data-ai-hint={avatar.imageHint} />}
-                <AvatarFallback>{name.charAt(0)}</AvatarFallback>
+                <AvatarFallback>{name ? name.charAt(0) : 'U'}</AvatarFallback>
               </Avatar>
               <div className="text-center sm:text-left">
                 <h1 className="text-3xl sm:text-4xl font-bold font-headline text-primary">{name}</h1>
@@ -110,9 +114,9 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
                   {profileTypeLabel && <Badge variant="outline">{profileTypeLabel}</Badge>}
                 </div>
                 <div className="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2 mt-4 text-sm text-muted-foreground">
-                  <span className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" />{email}</span>
-                  <span className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent" />{phone}</span>
-                  <span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent" />{location}</span>
+                  {email && <span className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" />{email}</span>}
+                  {phone && <span className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent" />{phone}</span>}
+                  {location && <span className="flex items-center gap-2"><MapPin className="h-4 w-4 text-accent" />{location}</span>}
                   {website && <a href={website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary"><Globe className="h-4 w-4 text-accent" />{website}</a>}
                 </div>
               </div>
@@ -122,46 +126,54 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
               <div className="md:col-span-2 space-y-8">
                 <section>
                   <h2 className="text-xl font-bold text-primary border-b-2 border-primary pb-2 mb-4">Summary</h2>
-                  <p className="text-muted-foreground">{summary}</p>
+                  <p className="text-muted-foreground whitespace-pre-wrap">{summary}</p>
                 </section>
 
-                <section>
-                  <h2 className="text-xl font-bold text-primary border-b-2 border-primary pb-2 mb-4">Work Experience</h2>
-                  <div className="space-y-6">
-                    {resumeData.experience.map(exp => (
-                      <div key={exp.id}>
-                        <div className="flex justify-between items-baseline">
-                          <h3 className="font-semibold text-lg">{exp.role}</h3>
-                          <p className="text-sm text-muted-foreground">{exp.startDate} - {exp.endDate || 'Present'}</p>
+                {resumeData.experience && resumeData.experience.length > 0 && (
+                  <section>
+                    <h2 className="text-xl font-bold text-primary border-b-2 border-primary pb-2 mb-4">Work Experience</h2>
+                    <div className="space-y-6">
+                      {resumeData.experience.map(exp => (
+                        <div key={exp.id}>
+                          <div className="flex justify-between items-baseline">
+                            <h3 className="font-semibold text-lg">{exp.role}</h3>
+                            <p className="text-sm text-muted-foreground">{exp.startDate} - {exp.endDate || 'Present'}</p>
+                          </div>
+                          <p className="text-md text-accent font-medium">{exp.company}</p>
+                          <p className="text-muted-foreground mt-2 text-sm whitespace-pre-wrap">{exp.description}</p>
                         </div>
-                        <p className="text-md text-accent font-medium">{exp.company}</p>
-                        <p className="text-muted-foreground mt-2 text-sm">{exp.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
+                      ))}
+                    </div>
+                  </section>
+                )}
               </div>
 
               <div className="md:col-span-1 space-y-8">
-                <section>
-                  <h2 className="text-xl font-bold text-primary border-b-2 border-primary pb-2 mb-4">Skills</h2>
-                  <div className="flex flex-wrap gap-2">
-                    {resumeData.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
-                  </div>
-                </section>
-                <Separator />
-                <section>
-                  <h2 className="text-xl font-bold text-primary border-b-2 border-primary pb-2 mb-4">Education</h2>
-                  <div className="space-y-4">
-                  {resumeData.education.map(edu => (
-                    <div key={edu.id}>
-                      <h3 className="font-semibold">{edu.institution}</h3>
-                      <p className="text-muted-foreground text-sm">{edu.degree}, {edu.fieldOfStudy}</p>
-                      <p className="text-muted-foreground text-sm">Graduated {edu.graduationYear}</p>
+                {resumeData.skills && resumeData.skills.length > 0 && (
+                  <section>
+                    <h2 className="text-xl font-bold text-primary border-b-2 border-primary pb-2 mb-4">Skills</h2>
+                    <div className="flex flex-wrap gap-2">
+                      {resumeData.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
                     </div>
-                  ))}
-                  </div>
-                </section>
+                  </section>
+                )}
+                
+                {(resumeData.skills && resumeData.skills.length > 0 && resumeData.education && resumeData.education.length > 0) && <Separator />}
+
+                {resumeData.education && resumeData.education.length > 0 && (
+                  <section>
+                    <h2 className="text-xl font-bold text-primary border-b-2 border-primary pb-2 mb-4">Education</h2>
+                    <div className="space-y-4">
+                    {resumeData.education.map(edu => (
+                      <div key={edu.id}>
+                        <h3 className="font-semibold">{edu.institution}</h3>
+                        <p className="text-muted-foreground text-sm">{edu.degree}, {edu.fieldOfStudy}</p>
+                        <p className="text-muted-foreground text-sm">Graduated {edu.graduationYear}</p>
+                      </div>
+                    ))}
+                    </div>
+                  </section>
+                )}
               </div>
             </main>
           </div>
@@ -170,5 +182,3 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
     </div>
   );
 }
-
-    
