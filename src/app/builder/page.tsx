@@ -125,9 +125,9 @@ export default function BuilderPage() {
         </div>
         
         <div className="absolute top-4 right-4 z-20 hidden lg:block">
-            <Button variant="outline" size="icon" onClick={() => setShowPreview(!showPreview)} aria-label="Toggle Preview">
+            <Button variant="outline" size="icon" onClick={() => setShowPreview(!showPreview)} aria-label={t('builder.togglePreview')}>
               {showPreview ? <EyeOff /> : <Eye />}
-              <span className="sr-only">{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
+              <span className="sr-only">{showPreview ? t('builder.hidePreview') : t('builder.showPreview')}</span>
             </Button>
         </div>
 

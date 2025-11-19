@@ -1,7 +1,7 @@
 {
   "landing": {
     "tagline": "Your Voice, Your Career.",
-    "description": "Effortlessly craft a professional resume using just your voice. SwarResume is a modern, inclusive resume builder designed for everyone. Tell us your story, and we'll handle the rest.",
+    "description": "Effortlessly craft a professional resume using just your voice. KagazPro is a modern, inclusive resume builder designed for everyone. Tell us your story, and we'll handle the rest.",
     "cta": "Create Your Resume"
   },
   "builder": {
@@ -81,7 +81,10 @@
     "notesDescription": "Add personal notes or feedback received. This won't appear on the final resume.",
     "notesPlaceholder": "e.g., 'Tailor this for marketing roles...'",
     "submitButton": "Save & Get Shareable Link",
-    "submittingButton": "Saving..."
+    "submittingButton": "Saving...",
+    "togglePreview": "Toggle Preview",
+    "hidePreview": "Hide Preview",
+    "showPreview": "Show Preview"
   },
   "voiceImporter": {
     "startRecording": "Describe Experience via Voice",
