@@ -22,7 +22,7 @@ export function ResumeViewer({ resumeData, isPreview = false }: { resumeData: Re
   const componentRef = useRef<HTMLDivElement>(null);
   const [url, setUrl] = useState('');
   const { toast } = useToast();
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const { t } = useTranslation();
 
   const profileTypeLabels: Record<ProfileType, string> = {
@@ -36,11 +36,7 @@ export function ResumeViewer({ resumeData, isPreview = false }: { resumeData: Re
     if (!isPreview) {
       setUrl(window.location.href);
     }
-    // Set language from resume data if it exists
-    if (resumeData.lang) {
-      setLanguage(resumeData.lang);
-    }
-  }, [isPreview, resumeData.lang, setLanguage]);
+  }, [isPreview]);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,

@@ -11,6 +11,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Header } from '@/components/header';
 import { useParams } from 'next/navigation';
 import { useTranslation } from '@/hooks/use-translation';
+import { useLanguage } from '@/context/language-context';
 
 export default function ResumePage() {
   const params = useParams();
@@ -18,6 +19,7 @@ export default function ResumePage() {
   const [loading, setLoading] = useState(true);
   const id = params.id;
   const { t } = useTranslation();
+  const { setLanguage } = useLanguage();
 
   useEffect(() => {
     if (!id) return;
@@ -29,6 +31,9 @@ export default function ResumePage() {
         // For this demo, we just use the one in local storage if ID matches.
         if (parsedData.id === id) {
           setResumeData(parsedData);
+          if (parsedData.lang) {
+            setLanguage(parsedData.lang);
+          }
         }
       }
     } catch (error) {
@@ -36,7 +41,7 @@ export default function ResumePage() {
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, setLanguage]);
 
   if (loading) {
     return (
