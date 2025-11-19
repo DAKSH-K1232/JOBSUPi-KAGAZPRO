@@ -2,13 +2,11 @@
 
 import type { ResumeData, ProfileType } from '@/lib/types';
 import { useRef, useState, useEffect } from 'react';
-import { useReactToPrint } from 'react-to-print';
 import QRCode from 'qrcode.react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Download, QrCode, Share2, ArrowLeft, Mail, Phone, Link as LinkIcon, MapPin, Globe } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import { Download, QrCode, Share2, ArrowLeft, Mail, Phone, MapPin, Globe } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { Badge } from './ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
@@ -32,30 +30,10 @@ export function ResumeViewer({ resumeData, isPreview = false }: { resumeData: Re
   };
 
   useEffect(() => {
-    // This runs only on the client, so window is available.
     if (!isPreview) {
       setUrl(window.location.href);
     }
   }, [isPreview]);
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: `${resumeData.personalInfo.name}-resume`,
-    pageStyle: `
-      @media print {
-        @page {
-          size: A4;
-          margin: 0;
-        }
-        body {
-          -webkit-print-color-adjust: exact;
-        }
-        html {
-          font-family: 'Inter', 'Noto Sans Devanagari', sans-serif;
-        }
-      }
-    `
-  });
   
   const handleCopyLink = () => {
     navigator.clipboard.writeText(url);
@@ -77,9 +55,11 @@ export function ResumeViewer({ resumeData, isPreview = false }: { resumeData: Re
               </Link>
             </Button>
             <div className="flex gap-2 flex-wrap">
-              <Button onClick={handlePrint}>
-                <Download className="mr-2 h-4 w-4" />
-                {t('viewer.downloadPdf')}
+              <Button asChild>
+                <Link href={`/resume/${resumeData.id}/download`} target="_blank">
+                  <Download className="mr-2 h-4 w-4" />
+                  {t('viewer.downloadPdf')}
+                </Link>
               </Button>
               {url && (
                 <>

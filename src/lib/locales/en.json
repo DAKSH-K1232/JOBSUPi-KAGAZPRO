@@ -111,7 +111,8 @@
     "graduated": "Graduated",
     "whiteCollar": "White Collar",
     "blueCollar": "Blue Collar",
-    "greyCollar": "Grey Collar"
+    "greyCollar": "Grey Collar",
+    "preparingDownload": "Preparing download..."
   },
   "toast": {
     "resumeSaved": {

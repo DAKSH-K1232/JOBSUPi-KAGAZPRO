@@ -111,7 +111,8 @@
     "graduated": "स्नातक",
     "whiteCollar": "व्हाइट कॉलर",
     "blueCollar": "ब्लू कॉलर",
-    "greyCollar": "ग्रे कॉलर"
+    "greyCollar": "ग्रे कॉलर",
+    "preparingDownload": "डाउनलोड की तैयारी हो रही है..."
   },
   "toast": {
     "resumeSaved": {
