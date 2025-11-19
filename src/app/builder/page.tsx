@@ -82,7 +82,7 @@ export default function BuilderPage() {
       skills: [],
       notes: '',
     });
-  }, [language, t, form]);
+  }, [language]);
 
   const watchedData = form.watch();
 

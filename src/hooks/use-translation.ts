@@ -3,13 +3,14 @@
 import { useLanguage } from '@/context/language-context';
 import en from '@/lib/locales/en.json';
 import hi from '@/lib/locales/hi.json';
+import { useCallback } from 'react';
 
 const translations = { en, hi };
 
 export function useTranslation() {
   const { language } = useLanguage();
 
-  const t = (key: string): string => {
+  const t = useCallback((key: string): string => {
     const keys = key.split('.');
     let result: any = translations[language];
     for (const k of keys) {
@@ -25,7 +26,7 @@ export function useTranslation() {
       }
     }
     return result || key;
-  };
+  }, [language]);
 
   return { t };
 }
