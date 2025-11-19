@@ -61,7 +61,7 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
       <div className="container mx-auto p-4 sm:p-6 lg:p-8">
         <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
           <Button variant="outline" asChild>
-            <Link href="/">
+            <Link href="/builder">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Editor
             </Link>

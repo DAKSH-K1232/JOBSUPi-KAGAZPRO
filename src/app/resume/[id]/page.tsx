@@ -64,7 +64,7 @@ export default function ResumePage() {
                 The resume you are looking for could not be found or has been removed.
               </p>
               <Button asChild>
-                <Link href="/">
+                <Link href="/builder">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back to Builder
                 </Link>
