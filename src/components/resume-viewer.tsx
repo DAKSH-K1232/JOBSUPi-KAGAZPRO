@@ -1,6 +1,6 @@
 'use client';
 
-import type { ResumeData } from '@/lib/types';
+import type { ResumeData, ProfileType } from '@/lib/types';
 import { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import QRCode from 'qrcode.react';
@@ -14,6 +14,12 @@ import Link from 'next/link';
 import { Badge } from './ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { useToast } from '@/hooks/use-toast';
+
+const profileTypeLabels: Record<ProfileType, string> = {
+  'white-collar': 'White Collar',
+  'blue-collar': 'Blue Collar',
+  'grey-collar': 'Grey Collar',
+};
 
 export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -48,6 +54,7 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
 
   const avatar = PlaceHolderImages.find(p => p.id === 'user-avatar');
   const { name, email, phone, location, website, summary } = resumeData.personalInfo;
+  const profileTypeLabel = profileTypeLabels[resumeData.profileType];
 
   return (
     <div className="bg-background min-h-screen">
@@ -98,7 +105,10 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
               </Avatar>
               <div className="text-center sm:text-left">
                 <h1 className="text-3xl sm:text-4xl font-bold font-headline text-primary">{name}</h1>
-                <p className="text-lg text-muted-foreground mt-1">{resumeData.experience[0]?.role || 'Professional'}</p>
+                <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap mt-1">
+                  <p className="text-lg text-muted-foreground">{resumeData.experience[0]?.role || 'Professional'}</p>
+                  {profileTypeLabel && <Badge variant="outline">{profileTypeLabel}</Badge>}
+                </div>
                 <div className="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2 mt-4 text-sm text-muted-foreground">
                   <span className="flex items-center gap-2"><Mail className="h-4 w-4 text-accent" />{email}</span>
                   <span className="flex items-center gap-2"><Phone className="h-4 w-4 text-accent" />{phone}</span>
@@ -160,3 +170,5 @@ export function ResumeViewer({ resumeData }: { resumeData: ResumeData }) {
     </div>
   );
 }
+
+    

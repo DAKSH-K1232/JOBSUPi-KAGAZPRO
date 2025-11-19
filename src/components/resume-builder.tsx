@@ -6,17 +6,21 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase, GraduationCap, Plus, Sparkles, Trash2, User, FileText, Send, Keyboard } from 'lucide-react';
+import { Briefcase, GraduationCap, Plus, Sparkles, Trash2, User, FileText, Send, Keyboard, UserSquare } from 'lucide-react';
 import { VoiceSkillImporter } from './voice-skill-importer';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
 import { useState } from 'react';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 
 const resumeSchema = z.object({
+  profileType: z.enum(['white-collar', 'blue-collar', 'grey-collar'], {
+    required_error: 'You need to select a profile type.',
+  }),
   versionName: z.string().min(1, 'Version name is required.'),
   personalInfo: z.object({
     name: z.string().min(1, 'Name is required.'),
@@ -54,6 +58,7 @@ export function ResumeBuilder() {
   const form = useForm<ResumeFormValues>({
     resolver: zodResolver(resumeSchema),
     defaultValues: {
+      profileType: 'white-collar',
       versionName: 'My First Resume',
       personalInfo: { name: '', email: '', phone: '', location: '', website: '', summary: '' },
       experience: [],
@@ -109,6 +114,59 @@ export function ResumeBuilder() {
                   <FormItem>
                     <FormLabel>Version Name</FormLabel>
                     <FormControl><Input {...field} /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><UserSquare /> Profile Type</CardTitle>
+              <CardDescription>Select the category that best describes your line of work.</CardDescription>
+            </CardHeader>
+            <CardContent>
+               <FormField
+                control={form.control}
+                name="profileType"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary">
+                          <FormControl>
+                            <RadioGroupItem value="white-collar" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            <span className="font-semibold block">White Collar</span>
+                            <span className="text-sm text-muted-foreground">Office, administrative, or professional jobs.</span>
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary">
+                          <FormControl>
+                            <RadioGroupItem value="blue-collar" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                             <span className="font-semibold block">Blue Collar</span>
+                            <span className="text-sm text-muted-foreground">Manual labor or skilled trade jobs.</span>
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary">
+                          <FormControl>
+                            <RadioGroupItem value="grey-collar" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                             <span className="font-semibold block">Grey Collar</span>
+                            <span className="text-sm text-muted-foreground">Technicians or specialized roles.</span>
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -244,3 +302,5 @@ export function ResumeBuilder() {
     </div>
   );
 }
+
+    

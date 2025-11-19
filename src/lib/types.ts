@@ -24,12 +24,17 @@ export interface Education {
   graduationYear: string;
 }
 
+export type ProfileType = 'white-collar' | 'blue-collar' | 'grey-collar';
+
 export interface ResumeData {
   id: string;
   versionName: string;
+  profileType: ProfileType;
   personalInfo: PersonalInfo;
   experience: WorkExperience[];
   education: Education[];
   skills: string[];
   notes: string;
 }
+
+    
