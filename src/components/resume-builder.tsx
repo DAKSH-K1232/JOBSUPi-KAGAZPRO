@@ -10,10 +10,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase, GraduationCap, Plus, Sparkles, Trash2, User, FileText, Send } from 'lucide-react';
+import { Briefcase, GraduationCap, Plus, Sparkles, Trash2, User, FileText, Send, Keyboard } from 'lucide-react';
 import { VoiceSkillImporter } from './voice-skill-importer';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
+import { useState } from 'react';
 
 const resumeSchema = z.object({
   versionName: z.string().min(1, 'Version name is required.'),
@@ -48,6 +49,8 @@ type ResumeFormValues = z.infer<typeof resumeSchema>;
 
 export function ResumeBuilder() {
   const router = useRouter();
+  const [skillInput, setSkillInput] = useState('');
+
   const form = useForm<ResumeFormValues>({
     resolver: zodResolver(resumeSchema),
     defaultValues: {
@@ -82,6 +85,13 @@ export function ResumeBuilder() {
     uniqueNewSkills.forEach(skill => appendSkill(skill));
   };
   
+  const handleAddSkillFromInput = () => {
+    if (skillInput.trim()) {
+      handleSkillsAdded([skillInput.trim()]);
+      setSkillInput('');
+    }
+  };
+
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <Form {...form}>
@@ -169,9 +179,27 @@ export function ResumeBuilder() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><Sparkles /> Skills</CardTitle>
-              <CardDescription>List your skills or use our AI to infer them from your voice.</CardDescription>
+              <CardDescription>List your skills manually or use AI to infer them from your voice.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div className="flex items-center gap-2">
+                 <Keyboard className="h-5 w-5 text-muted-foreground" />
+                 <Input
+                  type="text"
+                  placeholder="Enter a skill and press Add"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddSkillFromInput();
+                    }
+                  }}
+                  className="flex-grow"
+                />
+                <Button type="button" onClick={handleAddSkillFromInput}>Add Skill</Button>
+              </div>
+              <Separator />
               <VoiceSkillImporter onSkillsAdded={handleSkillsAdded} />
               <Separator />
               <div className="space-y-2">
