@@ -67,12 +67,6 @@ export function UserNav() {
           <DropdownMenuItem>
             Profile
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut}>
