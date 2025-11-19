@@ -82,9 +82,7 @@ export default function BuilderPage() {
       skills: [],
       notes: '',
     });
-  }, [language, form, t]);
-
-  const watchedData = form.watch();
+  }, [language]);
 
   useEffect(() => {
     const subscription = form.watch((value) => {
@@ -127,7 +125,7 @@ export default function BuilderPage() {
         </div>
         
         <div className="absolute top-4 right-4 z-20 hidden lg:block">
-            <Button variant="outline" size="icon" onClick={() => setShowPreview(!showPreview)}>
+            <Button variant="outline" size="icon" onClick={() => setShowPreview(!showPreview)} aria-label="Toggle Preview">
               {showPreview ? <EyeOff /> : <Eye />}
               <span className="sr-only">{showPreview ? 'Hide Preview' : 'Show Preview'}</span>
             </Button>
