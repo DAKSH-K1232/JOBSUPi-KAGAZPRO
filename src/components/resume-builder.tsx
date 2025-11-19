@@ -101,7 +101,7 @@ export function ResumeBuilder() {
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <Card>
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <CardHeader>
               <CardTitle>Resume Version</CardTitle>
               <CardDescription>Give this version of your resume a name to identify it later.</CardDescription>
@@ -121,7 +121,7 @@ export function ResumeBuilder() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><UserSquare /> Profile Type</CardTitle>
               <CardDescription>Select the category that best describes your line of work.</CardDescription>
@@ -138,7 +138,7 @@ export function ResumeBuilder() {
                         defaultValue={field.value}
                         className="grid grid-cols-1 md:grid-cols-3 gap-4"
                       >
-                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary">
+                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
                           <FormControl>
                             <RadioGroupItem value="white-collar" />
                           </FormControl>
@@ -147,7 +147,7 @@ export function ResumeBuilder() {
                             <span className="text-sm text-muted-foreground">Office, administrative, or professional jobs.</span>
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary">
+                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
                           <FormControl>
                             <RadioGroupItem value="blue-collar" />
                           </FormControl>
@@ -156,7 +156,7 @@ export function ResumeBuilder() {
                             <span className="text-sm text-muted-foreground">Manual labor or skilled trade jobs.</span>
                           </FormLabel>
                         </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary">
+                        <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-md has-[:checked]:border-primary transition-all">
                           <FormControl>
                             <RadioGroupItem value="grey-collar" />
                           </FormControl>
@@ -174,7 +174,7 @@ export function ResumeBuilder() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><User /> Personal Information</CardTitle>
               <CardDescription>Let's start with the basics.</CardDescription>
@@ -191,14 +191,14 @@ export function ResumeBuilder() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><Briefcase /> Work Experience</CardTitle>
               <CardDescription>Detail your professional journey.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {expFields.map((field, index) => (
-                <div key={field.id} className="p-4 border rounded-lg relative space-y-4">
+                <div key={field.id} className="p-4 border rounded-lg relative space-y-4 animate-fade-in">
                   <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => removeExp(index)}><Trash2 className="h-4 w-4" /></Button>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField control={form.control} name={`experience.${index}.role`} render={({ field }) => <FormItem><FormLabel>Role</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
@@ -213,14 +213,14 @@ export function ResumeBuilder() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><GraduationCap /> Education</CardTitle>
               <CardDescription>Your academic background.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {eduFields.map((field, index) => (
-                <div key={field.id} className="p-4 border rounded-lg relative space-y-4">
+                <div key={field.id} className="p-4 border rounded-lg relative space-y-4 animate-fade-in">
                    <Button type="button" variant="ghost" size="icon" className="absolute top-2 right-2" onClick={() => removeEdu(index)}><Trash2 className="h-4 w-4" /></Button>
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField control={form.control} name={`education.${index}.institution`} render={({ field }) => <FormItem><FormLabel>Institution</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
@@ -234,7 +234,7 @@ export function ResumeBuilder() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><Sparkles /> Skills</CardTitle>
               <CardDescription>List your skills manually or use AI to infer them from your voice.</CardDescription>
@@ -264,7 +264,7 @@ export function ResumeBuilder() {
                 <FormLabel>Your Skills</FormLabel>
                 <div className="flex flex-wrap gap-2">
                   {skillFields.map((field, index) => (
-                    <Badge key={field.id} variant="secondary" className="text-sm py-1 pl-3 pr-2">
+                    <Badge key={field.id} variant="secondary" className="text-sm py-1 pl-3 pr-2 animate-fade-in">
                       {form.getValues(`skills.${index}`)}
                       <button type="button" onClick={() => removeSkill(index)} className="ml-1 rounded-full hover:bg-destructive/20 p-0.5">
                         <Trash2 className="h-3 w-3" />
@@ -277,7 +277,7 @@ export function ResumeBuilder() {
             </CardContent>
           </Card>
           
-          <Card>
+          <Card className="animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
             <CardHeader>
                 <CardTitle className="flex items-center gap-2"><FileText /> Notes</CardTitle>
                 <CardDescription>Add personal notes or feedback received. This won't appear on the final resume.</CardDescription>
@@ -302,5 +302,3 @@ export function ResumeBuilder() {
     </div>
   );
 }
-
-    
